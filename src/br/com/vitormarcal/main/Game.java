@@ -1,5 +1,12 @@
 package br.com.vitormarcal.main;
 
+import br.com.vitormarcal.entities.Entity;
+import br.com.vitormarcal.entities.Player;
+import br.com.vitormarcal.graficos.Spritesheet;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -15,11 +22,17 @@ public class Game extends Canvas implements Runnable {
     private final int SCALE = 3;
 
     private BufferedImage image;
+    public List<Entity> entities;
+    public Spritesheet spritesheet;
 
     private Game() {
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         initFrame();
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        entities = new ArrayList<>();
+        spritesheet = new Spritesheet("/spritesheet.png");
+
+        entities.add(new Player(0,0,16,16, spritesheet.getSprite(32, 0, 16,16)));
     }
 
     private void initFrame() {
@@ -54,7 +67,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
-
+        entities.forEach(Entity::tick);
     }
 
     private void render() {
@@ -67,6 +80,10 @@ public class Game extends Canvas implements Runnable {
         Graphics g = image.getGraphics();
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
+
+        for (Entity entity : entities) {
+            entity.render(g);
+        }
 
         g.dispose();
         g = bs.getDrawGraphics();
