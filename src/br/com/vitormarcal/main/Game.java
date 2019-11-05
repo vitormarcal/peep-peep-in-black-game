@@ -4,15 +4,16 @@ import br.com.vitormarcal.entities.Entity;
 import br.com.vitormarcal.entities.Player;
 import br.com.vitormarcal.graficos.Spritesheet;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-
-public class Game extends Canvas implements Runnable {
+public class Game extends Canvas implements Runnable, KeyListener {
 
     public static JFrame frame;
     private Thread thread;
@@ -23,16 +24,18 @@ public class Game extends Canvas implements Runnable {
 
     private BufferedImage image;
     public List<Entity> entities;
+    private Player player;
     public Spritesheet spritesheet;
 
     private Game() {
+        addKeyListener(this);
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         initFrame();
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         entities = new ArrayList<>();
         spritesheet = new Spritesheet("/spritesheet.png");
-
-        entities.add(new Player(0,0,16,16, spritesheet.getSprite(32, 0, 16,16)));
+        player = new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
+        entities.add(player);
     }
 
     private void initFrame() {
@@ -78,7 +81,7 @@ public class Game extends Canvas implements Runnable {
         }
 
         Graphics g = image.getGraphics();
-        g.setColor(Color.BLACK);
+        g.setColor(Color.GREEN);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         for (Entity entity : entities) {
@@ -94,6 +97,7 @@ public class Game extends Canvas implements Runnable {
 
     @Override
     public void run() {
+        requestFocus();
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
         double ns = 1_000_000_000 / amountOfTicks;
@@ -118,5 +122,49 @@ public class Game extends Canvas implements Runnable {
             }
         }
         stop();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT ||
+                e.getKeyCode() == KeyEvent.VK_D) {
+            player.right = true;
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT ||
+                e.getKeyCode() == KeyEvent.VK_A) {
+            player.left = true;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_UP ||
+                e.getKeyCode() == KeyEvent.VK_W) {
+            player.up = true;
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN ||
+                e.getKeyCode() == KeyEvent.VK_S) {
+            player.down = true;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT ||
+                e.getKeyCode() == KeyEvent.VK_D) {
+            player.right = false;
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT ||
+                e.getKeyCode() == KeyEvent.VK_A) {
+            player.left = false;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_UP ||
+                e.getKeyCode() == KeyEvent.VK_W) {
+            player.up = false;
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN ||
+                e.getKeyCode() == KeyEvent.VK_S) {
+            player.down = false;
+        }
     }
 }
