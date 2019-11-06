@@ -1,9 +1,16 @@
 package br.com.vitormarcal.entities;
 
+import br.com.vitormarcal.main.Game;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
+
+    public static BufferedImage LIFEPACK_EN = Game.spritesheet.getSprite(6*16, 0, 16,16);
+    public static BufferedImage WEAPON_EN = Game.spritesheet.getSprite(7*16, 0, 16,16);
+    public static BufferedImage BULLET_EN = Game.spritesheet.getSprite(6*16, 16, 16,16);
+    public static BufferedImage ENEMY_EN = Game.spritesheet.getSprite(7*16, 16, 16,16);
 
     protected double x;
     protected double y;
@@ -34,5 +41,13 @@ public class Entity {
 
     public void render(Graphics g) {
         g.drawImage(sprite, this.getX(), this.getY(), null);
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 }
