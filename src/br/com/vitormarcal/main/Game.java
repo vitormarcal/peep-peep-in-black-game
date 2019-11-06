@@ -3,6 +3,7 @@ package br.com.vitormarcal.main;
 import br.com.vitormarcal.entities.Entity;
 import br.com.vitormarcal.entities.Player;
 import br.com.vitormarcal.graficos.Spritesheet;
+import br.com.vitormarcal.world.World;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +27,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public List<Entity> entities;
     private Player player;
     public static Spritesheet spritesheet;
+    public static World world;
 
     private Game() {
         addKeyListener(this);
@@ -34,6 +36,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         entities = new ArrayList<>();
         spritesheet = new Spritesheet("/spritesheet.png");
+        world = new World("/map.png");
         player = new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
         entities.add(player);
     }
@@ -81,9 +84,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
 
         Graphics g = image.getGraphics();
-        g.setColor(Color.GREEN);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
+        world.render(g);
         for (Entity entity : entities) {
             entity.render(g);
         }
