@@ -1,6 +1,7 @@
 package br.com.vitormarcal.entities;
 
 import br.com.vitormarcal.main.Game;
+import br.com.vitormarcal.world.Camera;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -40,7 +41,7 @@ public class Entity {
     }
 
     public void render(Graphics g) {
-        g.drawImage(sprite, this.getX(), this.getY(), null);
+        g.drawImage(sprite, this.getX() - Camera.x, this.getY() - Camera.y, null);
     }
 
     public void setX(double x) {
