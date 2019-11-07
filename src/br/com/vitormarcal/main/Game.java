@@ -13,6 +13,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game extends Canvas implements Runnable, KeyListener {
 
@@ -29,7 +30,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static Spritesheet spritesheet;
     public static World world;
 
+    public static Random rand;
+
     private Game() {
+        rand = new Random();
         addKeyListener(this);
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         initFrame();
