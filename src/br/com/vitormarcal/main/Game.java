@@ -42,7 +42,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     private void initFrame() {
-        frame = new JFrame("Zelda Clone");
+        frame = new JFrame("Piu Piu de Preto");
         frame.add(this);
         frame.setResizable(false);
         frame.pack();

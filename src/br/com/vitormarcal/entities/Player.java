@@ -2,6 +2,7 @@ package br.com.vitormarcal.entities;
 
 import br.com.vitormarcal.main.Game;
 import br.com.vitormarcal.world.Camera;
+import br.com.vitormarcal.world.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -69,8 +70,8 @@ public class Player extends Entity {
             }
         }
 
-        Camera.x = this.getX() - (Game.WIDTH/2);
-        Camera.y = this.getY() - (Game.HEIGHT/2);
+        Camera.x = Camera.clamp(this.getX() - (Game.WIDTH / 2), 0, World.WIDTH*16 - Game.WIDTH);
+        Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT / 2), 0, World.HEIGHT*16 - Game.HEIGHT);
     }
 
     @Override

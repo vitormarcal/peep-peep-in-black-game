@@ -35,16 +35,16 @@ public class World {
                         tiles[xx + (yy * WIDTH)] = new WallTile(Tile.TILE_WALL, xx * 16, yy * 16);
                     } else if (pixelAtual == 0xFF0026FF) {
                         tiles[xx + (yy * WIDTH)] = new FloorTile(Tile.TILE_FLOOR, xx * 16, yy * 16);
-                        Game.player.setX(xx*16);
-                        Game.player.setY(yy*16);
+                        Game.player.setX(xx * 16);
+                        Game.player.setY(yy * 16);
                     } else if (pixelAtual == 0xFFFF0000) {
-                        Game.entities.add(new Enemy( xx*16, yy*16, 16,16, Entity.ENEMY_EN));
+                        Game.entities.add(new Enemy(xx * 16, yy * 16, 16, 16, Entity.ENEMY_EN));
                     } else if (pixelAtual == 0xFFFF6A00) {
-                        Game.entities.add(new Weapon( xx*16, yy*16, 16,16, Entity.WEAPON_EN));
+                        Game.entities.add(new Weapon(xx * 16, yy * 16, 16, 16, Entity.WEAPON_EN));
                     } else if (pixelAtual == 0xFFFF7F7F) {
-                        Game.entities.add(new Lifepack( xx*16, yy*16, 16,16, Entity.LIFEPACK_EN));
+                        Game.entities.add(new Lifepack(xx * 16, yy * 16, 16, 16, Entity.LIFEPACK_EN));
                     } else if (pixelAtual == 0xFFFFD800) {
-                        Game.entities.add(new Bullet( xx*16, yy*16, 16,16, Entity.BULLET_EN));
+                        Game.entities.add(new Bullet(xx * 16, yy * 16, 16, 16, Entity.BULLET_EN));
                     }
                 }
 
@@ -55,8 +55,17 @@ public class World {
     }
 
     public void render(Graphics g) {
-        for (int xx = 0; xx < WIDTH; xx++) {
-            for (int yy = 0; yy < HEIGHT; yy++) {
+        int xstart = Camera.x >> 4;
+        int ystart = Camera.y >> 4;
+
+        int xfinal = xstart + (Game.WIDTH >> 4);
+        int yfinal = ystart + (Game.HEIGHT >> 4);
+
+        for (int xx = xstart; xx <= xfinal; xx++) {
+            for (int yy = ystart; yy <= yfinal; yy++) {
+                if (xx < 0 || yy < 0 || xx >= WIDTH || yy >= HEIGHT) {
+                    continue;
+                }
                 Tile tile = tiles[xx + (yy * WIDTH)];
                 tile.render(g);
             }
